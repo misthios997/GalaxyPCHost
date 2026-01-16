@@ -1,0 +1,24 @@
+name: Build GalaxyPCHost EXE
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Build
+        run: msbuild GalaxyPCHost.csproj /p:Configuration=Release
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v3
+        with:
+          name: GalaxyPCHost
+          path: bin/Release/*.exe
