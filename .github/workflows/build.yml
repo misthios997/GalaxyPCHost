@@ -9,16 +9,17 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
 
-      - name: Build
+      - name: Build GalaxyPCHost
         run: msbuild GalaxyPCHost.csproj /p:Configuration=Release
 
       - name: Upload EXE
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: GalaxyPCHost
           path: bin/Release/*.exe
