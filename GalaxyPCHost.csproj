@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+
+    <AssemblyName>GalaxyPCHost</AssemblyName>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+
+  </PropertyGroup>
+</Project>
