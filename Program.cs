@@ -1,4 +1,6 @@
 using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -25,58 +27,84 @@ namespace GalaxyPCHost
 
         class MainForm : Form
         {
-            Button connect = new Button();
-            Button disconnect = new Button();
-            Label status = new Label();
+            Button btnConnect;
+            Label lblTitle;
+            bool connected = false;
 
             public MainForm()
             {
-                Text = "GalaxyTopia PC Host";
-                Width = 300;
-                Height = 200;
-                FormBorderStyle = FormBorderStyle.FixedDialog;
+                Text = "GalaxyPCHost";
+                Width = 360;
+                Height = 240;
+                FormBorderStyle = FormBorderStyle.FixedSingle;
                 MaximizeBox = false;
+                DoubleBuffered = true;
 
-                connect.Text = "CONNECT";
-                connect.SetBounds(50, 20, 180, 40);
-                connect.Click += (s, e) => ConnectGTPS();
+                lblTitle = new Label();
+                lblTitle.Text = "GalaxyTopia";
+                lblTitle.Font = new Font("Segoe UI", 24, FontStyle.Bold);
+                lblTitle.ForeColor = Color.White;
+                lblTitle.AutoSize = false;
+                lblTitle.TextAlign = ContentAlignment.MiddleCenter;
+                lblTitle.SetBounds(0, 20, Width, 50);
 
-                disconnect.Text = "DISCONNECT";
-                disconnect.SetBounds(50, 70, 180, 40);
-                disconnect.Click += (s, e) => DisconnectGTPS();
+                btnConnect = new Button();
+                btnConnect.Text = "CONNECT";
+                btnConnect.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+                btnConnect.BackColor = Color.Gray;       // abu awal
+                btnConnect.ForeColor = Color.White;
+                btnConnect.FlatStyle = FlatStyle.Flat;
+                btnConnect.FlatAppearance.BorderSize = 0;
+                btnConnect.SetBounds(80, 110, 200, 45);
+                btnConnect.Click += ConnectClicked;
 
-                status.Text = "Status: Idle";
-                status.SetBounds(50, 130, 200, 20);
-
-                Controls.Add(connect);
-                Controls.Add(disconnect);
-                Controls.Add(status);
+                Controls.Add(lblTitle);
+                Controls.Add(btnConnect);
             }
 
-            void ConnectGTPS()
+            // Background gradasi ungu → biru
+            protected override void OnPaintBackground(PaintEventArgs e)
             {
-                if (!File.Exists(backupPath))
-                    File.Copy(hostsPath, backupPath);
-
-                var lines = File.ReadAllLines(hostsPath).ToList();
-                foreach (var l in gtpsLines)
-                    if (!lines.Any(x => x.Contains(l)))
-                        lines.Add(l);
-
-                File.WriteAllLines(hostsPath, lines);
-                status.Text = "Status: Connected to GalaxyTopia";
-
-                MessageBox.Show("Connected ke GalaxyTopia!\nBuka Growtopia.",
-                    "GalaxyTopia", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-
-            void DisconnectGTPS()
-            {
-                if (File.Exists(backupPath))
+                using (LinearGradientBrush brush = new LinearGradientBrush(
+                    this.ClientRectangle,
+                    Color.FromArgb(138, 43, 226),   // ungu
+                    Color.FromArgb(0, 191, 255),    // biru terang
+                    LinearGradientMode.Vertical))
                 {
-                    File.Copy(backupPath, hostsPath, true);
-                    File.Delete(backupPath);
-                    status.Text = "Status: Normal IP";
+                    e.Graphics.FillRectangle(brush, this.ClientRectangle);
+                }
+            }
+
+            void ConnectClicked(object sender, EventArgs e)
+            {
+                if (connected) return;
+
+                try
+                {
+                    if (!File.Exists(backupPath))
+                        File.Copy(hostsPath, backupPath);
+
+                    var lines = File.ReadAllLines(hostsPath).ToList();
+                    foreach (var l in gtpsLines)
+                        if (!lines.Any(x => x.Contains(l)))
+                            lines.Add(l);
+
+                    File.WriteAllLines(hostsPath, lines);
+
+                    btnConnect.BackColor = Color.Green; // jadi hijau
+                    btnConnect.Text = "CONNECTED";
+                    connected = true;
+
+                    MessageBox.Show(
+                        "Terhubung ke GalaxyTopia!\nSilakan buka Growtopia.",
+                        "GalaxyTopia",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error");
                 }
             }
         }
