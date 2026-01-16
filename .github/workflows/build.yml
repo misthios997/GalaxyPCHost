@@ -6,27 +6,23 @@ on:
 
 jobs:
   build:
-    name: Build on Windows
     runs-on: windows-latest
 
     steps:
-      - name: Checkout source
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup .NET Framework
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
-      - name: Restore dependencies
-        run: nuget restore GalaxyPCHost.csproj
-
       - name: Build EXE
-        run: msbuild GalaxyPCHost.csproj /p:Configuration=Release /p:Platform="Any CPU"
+        run: dotnet build GalaxyPCHost.csproj -c Release
 
-      - name: Upload GalaxyPCHost EXE
+      - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
           name: GalaxyPCHost
           path: |
-            **/bin/Release/*.exe
+            **/bin/Release/**/*.exe
