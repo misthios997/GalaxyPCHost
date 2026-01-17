@@ -3,12 +3,15 @@ using System.Windows.Forms;
 
 namespace GalaxyPCHost
 {
-    static class Program
+    internal static class Program
     {
         [STAThread]
         static void Main()
         {
-            Application.ApplicationExit += (s, e) =>
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            AppDomain.CurrentDomain.ProcessExit += (s, e) =>
             {
                 HostManager.Disconnect();
             };
@@ -16,25 +19,7 @@ namespace GalaxyPCHost
             Application.Run(new MainForm());
         }
     }
-}                Width = 360;
-                Height = 240;
-                FormBorderStyle = FormBorderStyle.FixedSingle;
-                MaximizeBox = false;
-                DoubleBuffered = true;
-
-                lblTitle = new Label();
-                lblTitle.Text = "GalaxyTopia";
-                lblTitle.Font = new Font("Segoe UI", 24, FontStyle.Bold);
-                lblTitle.ForeColor = Color.White;
-                lblTitle.AutoSize = false;
-                lblTitle.TextAlign = ContentAlignment.MiddleCenter;
-                lblTitle.SetBounds(0, 20, Width, 50);
-
-                btnConnect = new Button();
-                btnConnect.Text = "CONNECT";
-                btnConnect.Font = new Font("Segoe UI", 12, FontStyle.Bold);
-                btnConnect.BackColor = Color.Gray;       // abu awal
-                btnConnect.ForeColor = Color.White;
+}                btnConnect.ForeColor = Color.White;
                 btnConnect.FlatStyle = FlatStyle.Flat;
                 btnConnect.FlatAppearance.BorderSize = 0;
                 btnConnect.SetBounds(80, 110, 200, 45);
