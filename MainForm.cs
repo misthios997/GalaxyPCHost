@@ -10,28 +10,32 @@ namespace GalaxyPCHost
         public MainForm()
         {
             Text = "GalaxyPCHost";
-            Width = 400;
-            Height = 250;
-            BackColor = Color.FromArgb(120, 70, 200);
+            Width = 420;
+            Height = 260;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            BackColor = Color.FromArgb(120, 80, 220);
 
             Label title = new Label()
             {
                 Text = "GalaxyTopia",
                 ForeColor = Color.White,
-                Font = new Font("Segoe UI", 22, FontStyle.Bold),
+                Font = new Font("Segoe UI", 24, FontStyle.Bold),
                 AutoSize = true,
-                Top = 30,
-                Left = 90
+                Top = 35,
+                Left = 95
             };
 
             btn = new Button()
             {
                 Text = "Connect",
-                Width = 140,
-                Height = 45,
-                Top = 130,
-                Left = 120,
-                BackColor = Color.Gray
+                Width = 160,
+                Height = 50,
+                Top = 140,
+                Left = 125,
+                BackColor = Color.Gray,
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat
             };
 
             btn.Click += (s, e) =>
