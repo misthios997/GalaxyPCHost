@@ -5,7 +5,7 @@ namespace GalaxyPCHost
     public static class HostManager
     {
         static string hosts = @"C:\Windows\System32\drivers\etc\hosts";
-        static string backup = @"C:\Windows\System32\drivers\etc\hosts.bak";
+        static string backup = @"C:\Windows\System32\drivers\etc\hosts.galaxy.bak";
 
         static string gtps =
 @"91.134.85.13 growtopia1.com
@@ -16,9 +16,10 @@ namespace GalaxyPCHost
         public static void Connect()
         {
             if (!File.Exists(backup))
-                File.Copy(hosts, backup);
+                File.Copy(hosts, backup, true);
 
-            File.AppendAllText(hosts, "\n" + gtps);
+            if (!File.ReadAllText(hosts).Contains("growtopia1.com"))
+                File.AppendAllText(hosts, "\n" + gtps);
         }
 
         public static void Disconnect()
