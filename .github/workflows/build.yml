@@ -15,11 +15,12 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    - run: dotnet publish -c Release -r win-x64 ^
-        --self-contained true ^
-        /p:PublishSingleFile=true ^
-        /p:EnableCompressionInSingleFile=true ^
-        /p:IncludeNativeLibrariesForSelfExtract=true
+    - name: Publish EXE
+      run: |
+        dotnet publish GalaxyPCHost.csproj -c Release -r win-x64 --self-contained true `
+          /p:PublishSingleFile=true `
+          /p:EnableCompressionInSingleFile=true `
+          /p:IncludeNativeLibrariesForSelfExtract=true
 
     - uses: actions/upload-artifact@v4
       with:
