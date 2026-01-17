@@ -1,28 +1,26 @@
 name: Build GalaxyPCHost
 
 on:
-  workflow_dispatch:
   push:
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
 
-      - name: Build EXE
-        run: dotnet build GalaxyPCHost.csproj -c Release
+    - name: Build
+      run: dotnet publish -c Release -r win-x64 --self-contained true
 
-      - name: Upload EXE
-        uses: actions/upload-artifact@v4
-        with:
-          name: GalaxyPCHost
-          path: |
-            **/bin/Release/**/*.exe
+    - name: Upload EXE
+      uses: actions/upload-artifact@v4
+      with:
+        name: GalaxyPCHost
+        path: bin/Release/net6.0-windows/win-x64/publish/
