@@ -19,22 +19,7 @@ namespace GalaxyPCHost
             Application.Run(new MainForm());
         }
     }
-}                btnConnect.ForeColor = Color.White;
-                btnConnect.FlatStyle = FlatStyle.Flat;
-                btnConnect.FlatAppearance.BorderSize = 0;
-                btnConnect.SetBounds(80, 110, 200, 45);
-                btnConnect.Click += ConnectClicked;
-
-                Controls.Add(lblTitle);
-                Controls.Add(btnConnect);
-            }
-
-            // Background gradasi ungu → biru
-            protected override void OnPaintBackground(PaintEventArgs e)
-            {
-                using (LinearGradientBrush brush = new LinearGradientBrush(
-                    this.ClientRectangle,
-                    Color.FromArgb(138, 43, 226),   // ungu
+}                    Color.FromArgb(138, 43, 226),   // ungu
                     Color.FromArgb(0, 191, 255),    // biru terang
                     LinearGradientMode.Vertical))
                 {
