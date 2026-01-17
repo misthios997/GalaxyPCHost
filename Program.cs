@@ -1,40 +1,22 @@
 using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace GalaxyPCHost
 {
     static class Program
     {
-        static string hostsPath = @"C:\Windows\System32\drivers\etc\hosts";
-        static string backupPath = @"C:\Windows\System32\drivers\etc\hosts.galaxy.bak";
-
-        static string[] gtpsLines =
-        {
-            "91.134.85.13 www.growtopia1.com",
-            "91.134.85.13 www.growtopia2.com"
-        };
-
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
+            Application.ApplicationExit += (s, e) =>
+            {
+                HostManager.Disconnect();
+            };
+
             Application.Run(new MainForm());
         }
-
-        class MainForm : Form
-        {
-            Button btnConnect;
-            Label lblTitle;
-            bool connected = false;
-
-            public MainForm()
-            {
-                Text = "GalaxyPCHost";
-                Width = 360;
+    }
+}                Width = 360;
                 Height = 240;
                 FormBorderStyle = FormBorderStyle.FixedSingle;
                 MaximizeBox = false;
